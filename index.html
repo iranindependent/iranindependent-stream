@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <title>پخش زنده شبکه ۳</title>
+  <meta charset="UTF-8" />
+  <title>پخش زنده - Iran Independent</title>
   <style>
-    body { margin: 0; background: black; }
-    video { width: 100vw; height: 100vh; background: black; object-fit: cover; }
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+    video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      background: black;
+    }
+    #logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      width: 120px;
+      opacity: 0.9;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-  <video id="video" controls autoplay></video>
+  <img id="logo" src="https://iranindependent.org/logo2.png" alt="Iran Independent Logo" />
+  <video id="video" controls autoplay muted></video>
   <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const stream = urlParams.get('url');
     const video = document.getElementById('video');
-    const stream = "https://shabake3-tv-website.maniatream.com/live/ehZXjgL6advrD2Ie_iMAUw__/stream_0.m3u8";
-    if (Hls.isSupported()) {
+
+    if (stream && Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(stream);
       hls.attachMedia(video);
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = stream;
+    } else {
+      document.body.innerHTML = "<p style='color: white; text-align: center; margin-top: 20px;'>پخش این لینک امکان‌پذیر نیست.</p>";
     }
   </script>
 </body>
